@@ -49,6 +49,34 @@ app.get("/api/v1/species/:id", async (req, res) => {
   }
 });
 
+app.post("/api/v1/species", async (req, res) => {
+  try {
+    const {
+      common_name,
+      scientific_name,
+      estimated_population,
+      conservation_status_code,
+    } = req.body;
+    const newSpecies = await db.query(
+      "INSERT INTO species (common_name, scientific_name, estimated_population, conservation_status_code) VALUES($1, $2, $3, $4) RETURNING *",
+      [
+        common_name,
+        scientific_name,
+        estimated_population,
+        conservation_status_code,
+      ]
+    );
+    console.log("newSpecies", newSpecies.rows[0]);
+    res.status(200).json({
+      status: "success",
+      data: { newSpecies: newSpecies.rows[0] },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error });
+  }
+});
+
 app.listen(PORT, () =>
   console.log(`Server running on Port http://localhost:${PORT}`)
 );
