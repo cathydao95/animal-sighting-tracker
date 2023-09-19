@@ -57,6 +57,7 @@ app.post("/api/v1/species", async (req, res) => {
       estimated_population,
       conservation_status_code,
     } = req.body;
+    // how to destructure this? so can obtain rows here?
     const newSpecies = await db.query(
       "INSERT INTO species (common_name, scientific_name, estimated_population, conservation_status_code) VALUES($1, $2, $3, $4) RETURNING *",
       [
@@ -74,6 +75,42 @@ app.post("/api/v1/species", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json({ error });
+  }
+});
+
+app.put("/api/v1/species/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      common_name,
+      scientific_name,
+      estimated_population,
+      conservation_status_code,
+    } = req.body;
+    const updatedSpecies = await db.query(
+      "UPDATE species SET (common_name, scientific_name, estimated_population, conservation_status_code) = ($1, $2, $3, $4) WHERE species_id=$5",
+      [
+        common_name,
+        scientific_name,
+        estimated_population,
+        conservation_status_code,
+        id,
+      ]
+    );
+    if (updatedSpecies.rowCount === 0) {
+      return res.status(404).json({ status: "Species not found" });
+    }
+    const species = await db.query(
+      "SELECT * FROM species WHERE species_id=$1",
+      [id]
+    );
+    res.json({
+      status: "Species Updated",
+      updatedSpecies: species.rows[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "failure" });
   }
 });
 
