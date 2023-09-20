@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import "./AllSpecies.css";
 import { Link } from "react-router-dom";
 import SpeciesForm from "./SpeciesForm";
+import Loading from "../Loading";
 
 const AllSpecies = () => {
   const [species, setSpecies] = useState();
@@ -51,7 +51,9 @@ const AllSpecies = () => {
     getAllSpecies();
   }, []);
 
-  return (
+  return !species ? (
+    <Loading />
+  ) : (
     <div>
       <h1>All Species</h1>
       <SpeciesForm setSpecies={setSpecies} />
@@ -68,11 +70,11 @@ const AllSpecies = () => {
             return (
               <div className="individualContainer" key={id}>
                 <Link to={`/${id}`}>
-                  <h3>{common_name}</h3>
+                  <h3 className="mainTitle">{common_name}</h3>
                 </Link>
-                <h4>Scientific Name: {scientific_name}</h4>
-                <h4>Estimated Population: {estimated_population}</h4>
-                <h4>Conservation Status Code: {conservation_status_code}</h4>
+                <p>Scientific Name: {scientific_name}</p>
+                <p>Estimated Population: {estimated_population}</p>
+                <p>Conservation Status Code: {conservation_status_code}</p>
                 <div className="btnContainer">
                   <button>Edit</button>
                   <button onClick={(e) => deleteSpecies(e, id)}>Delete</button>

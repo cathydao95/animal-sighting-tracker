@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import IndividualsForm from "./IndividualsForm";
+import Loading from "../Loading";
 
 const IndividualSpecies = () => {
   const { id } = useParams();
@@ -32,7 +33,9 @@ const IndividualSpecies = () => {
   useEffect(() => {
     getIndividualSpecies(id);
   }, [id]);
-  return (
+  return !individualsOfSpecies ? (
+    <Loading />
+  ) : (
     <div>
       {individualsOfSpecies && (
         <h2>{`List of Individual ${individualsOfSpecies[0].common_name}s`}</h2>
@@ -44,7 +47,7 @@ const IndividualSpecies = () => {
             const {
               nickname,
               scientist_name,
-              species_id,
+              scientist_email,
               id,
               scientific_name,
               common_name,
@@ -54,14 +57,15 @@ const IndividualSpecies = () => {
             return (
               <div className="individualContainer" key={id}>
                 <Link to={`/individuals/${id}/sighting`}>
-                  <h3>{nickname}</h3>
-                  <h3>Common Name: {common_name}</h3>
-                  <h3>Scientific Name: {scientific_name}</h3>
-                  <h4>Sighted By: {scientist_name}</h4>
-                  <h4>
+                  <h3 className="mainTitle">{nickname}</h3>
+                  <p>Common Name: {common_name}</p>
+                  <p>Scientific Name: {scientific_name}</p>
+                  <p>Discovered By: {scientist_name}</p>
+                  <p>Email: {scientist_email}</p>
+                  <p>
                     Sighted at {sighting_location} on
                     {sighting_datetime}
-                  </h4>
+                  </p>
                 </Link>
               </div>
             );

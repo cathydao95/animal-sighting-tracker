@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SightingsForm from "./SightingsForm";
 import Loading from "../Loading";
+import { formatSightingDate } from "../../utils";
 
 const IndividualSighting = () => {
   const { id } = useParams();
@@ -46,25 +47,25 @@ const IndividualSighting = () => {
       <SightingsForm setIndividualsSightings={setIndividualsSightings} />
       <div className="container">
         {individualsSightings[0].id &&
-          individualsSightings.map((sighting) => {
+          individualsSightings.map((sighting, index) => {
             const {
               id,
               sighting_datetime,
               sighting_location,
               is_healthy,
               scientist_email,
-              nickname,
               scientist_name,
             } = sighting;
+
             return (
               <div className="individualContainer" key={id}>
-                <h3>Nickname: {nickname}</h3>
-
-                <h3>Sighted: {sighting_datetime}</h3>
-                <h3>Sighting Location: {sighting_location}</h3>
-                <h3>Health Status: {is_healthy ? "Healthy" : "Unhealthy"}</h3>
-                <h3>Sighted By: {scientist_name}</h3>
-                <h3>Scientist Email: {scientist_email}</h3>
+                <h3 className="mainTitle">Sighting {index + 1}:</h3>
+                <p> Sighting Date: {formatSightingDate(sighting_datetime)}</p>
+                <p>Sighted Location: {sighting_location}</p>
+                {/* <p>{formatLocationString(sighting_location)}</p> */}
+                <p>Health Status: {is_healthy ? "Healthy" : "Unhealthy"}</p>
+                <p>Sighted By: {scientist_name}</p>
+                <p>Email: {scientist_email}</p>
               </div>
             );
           })}
