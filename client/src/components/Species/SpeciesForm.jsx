@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./SpeciesForm.css";
 
 const SpeciesForm = ({ setSpecies }) => {
   const [speciesInfo, setSpeciesInfo] = useState({});
@@ -42,6 +41,7 @@ const SpeciesForm = ({ setSpecies }) => {
             id="common_name"
             name="common_name"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">
@@ -51,6 +51,7 @@ const SpeciesForm = ({ setSpecies }) => {
             id="scientific_name"
             name="scientific_name"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">
@@ -60,6 +61,7 @@ const SpeciesForm = ({ setSpecies }) => {
             id="estimated_population"
             name="estimated_population"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">

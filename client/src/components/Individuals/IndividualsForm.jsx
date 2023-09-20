@@ -47,12 +47,13 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
     <div>
       <form className="formContainer">
         <div className="formRow">
-          <label htmlFor="nickname"> Nickname:</label>
+          <label htmlFor="nickname"> Individual Nickname:</label>
           <input
             type="text"
             id="cnickame"
             name="nickname"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">
@@ -62,6 +63,17 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
             id="scientist_name"
             name="scientist_name"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
+          />
+        </div>
+        <div className="formRow">
+          <label htmlFor="scientist_email">Scientist Email:</label>
+          <input
+            type="text"
+            id="scientist_email"
+            name="scientist_email"
+            onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <button onClick={(e) => addIndividual(e, id)}>

@@ -52,6 +52,7 @@ const SightingsForm = ({ setIndividualsSightings }) => {
             id="sighting_datetime"
             name="sighting_datetime"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">
@@ -61,6 +62,7 @@ const SightingsForm = ({ setIndividualsSightings }) => {
             id="sighting_location"
             name="sighting_location"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
         <div className="formRow">
@@ -82,12 +84,23 @@ const SightingsForm = ({ setIndividualsSightings }) => {
           /> */}
         </div>
         <div className="formRow">
+          <label htmlFor="scientist_name"> Scientist Name:</label>
+          <input
+            type="text"
+            id="scientist_name"
+            name="scientist_name"
+            onChange={(e) => handleInput(e)}
+            autoComplete="off"
+          />
+        </div>
+        <div className="formRow">
           <label htmlFor="scientist_email"> Scientist Email:</label>
           <input
             type="text"
             id="scientist_email"
             name="scientist_email"
             onChange={(e) => handleInput(e)}
+            autoComplete="off"
           />
         </div>
 
