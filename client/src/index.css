@@ -2,6 +2,7 @@ body {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   margin: 2rem;
+  background-color: rgb(157, 224, 225);
 }
 
 a {
@@ -10,7 +11,7 @@ a {
 }
 
 a:hover {
-  color: green;
+  color: rgb(67, 81, 164);
 }
 li {
   list-style: none;
@@ -18,22 +19,34 @@ li {
 
 label {
   text-align: left;
+  font-size: 1rem;
+}
+
+input,
+select {
+  padding: 0.5rem;
+}
+
+.select {
+  font-size: 1rem;
 }
 
 .title {
   font-size: 2rem;
   padding: 2rem;
+  font-weight: 800;
 }
 
 button {
   margin-top: 2rem;
   border: none;
-  background-color: rgb(236, 111, 38);
+  background-color: rgb(238, 128, 130);
+  color: white;
   padding: 1rem 1.25rem;
 }
 
 button:hover {
-  background-color: rgb(189, 104, 47);
+  background-color: rgb(189, 68, 47);
 }
 /* forms */
 .formContainer {
@@ -57,6 +70,13 @@ button:hover {
 .individualContainer {
   border: 1px solid grey;
   padding: 1rem;
+  background-color: white;
+  text-align: left;
+}
+
+.mainTitle {
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 .btnContainer {
@@ -67,6 +87,9 @@ button:hover {
 }
 
 @media (min-width: 600px) {
+  body {
+    margin: 2rem 5rem;
+  }
   .container {
     text-align: center;
     display: grid;
