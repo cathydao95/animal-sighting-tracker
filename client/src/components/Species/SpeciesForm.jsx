@@ -1,4 +1,6 @@
 import { useState } from "react";
+import FormRow from "../FormRow";
+import fetchData from "../../utils";
 
 const SpeciesForm = ({ setSpecies }) => {
   const [speciesInfo, setSpeciesInfo] = useState({});
@@ -12,18 +14,14 @@ const SpeciesForm = ({ setSpecies }) => {
   const addSpecies = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/api/v1/species", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(speciesInfo),
-      });
-      if (response.ok) {
+      const response = await fetchData("/species", "POST", {}, speciesInfo);
+
+      if (response) {
         const {
           data: { newSpecies },
-        } = await response.json();
+        } = response;
+
         setSpecies((prevSpecies) => [...prevSpecies, newSpecies]);
-      } else if (!response.ok) {
-        throw new Error("Network response was not ok");
       }
     } catch (error) {
       console.error("Error occured while creating event", error);
@@ -34,41 +32,30 @@ const SpeciesForm = ({ setSpecies }) => {
   return (
     <div>
       <form className="formContainer">
-        <div className="formRow">
-          <label htmlFor="common_name">Common Name:</label>
-          <input
-            type="text"
-            id="common_name"
-            name="common_name"
-            onChange={(e) => handleInput(e)}
-            autoComplete="off"
-          />
-        </div>
-        <div className="formRow">
-          <label htmlFor="scientific_name">Scientific Name:</label>
-          <input
-            type="text"
-            id="scientific_name"
-            name="scientific_name"
-            onChange={(e) => handleInput(e)}
-            autoComplete="off"
-          />
-        </div>
-        <div className="formRow">
-          <label htmlFor="estimated_population">Estimated Population:</label>
-          <input
-            type="number"
-            id="estimated_population"
-            name="estimated_population"
-            onChange={(e) => handleInput(e)}
-            autoComplete="off"
-          />
-        </div>
+        <FormRow
+          name="common_name"
+          label="Common Name"
+          type="text"
+          onChange={(e) => handleInput(e)}
+        />
+        <FormRow
+          name="scientific_name"
+          label="Scientific Name"
+          type="text"
+          onChange={(e) => handleInput(e)}
+        />
+        <FormRow
+          name="estimated_population"
+          label="Estimated Population"
+          type="number"
+          onChange={(e) => handleInput(e)}
+        />
         <div className="formRow">
           <label htmlFor="conservation_status">Conservation Status:</label>
           <select
             name="conservation_status_code"
             id="conservation_status"
+            type="text"
             onChange={(e) => handleInput(e)}
           >
             <option value="NE">Not Evaluated</option> 
