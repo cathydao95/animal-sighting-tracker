@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import IndividualsForm from "./IndividualsForm";
 import Loading from "../Loading";
+import fetchData from "../../utils";
 
 const IndividualSpecies = () => {
   const { id } = useParams();
@@ -10,18 +11,15 @@ const IndividualSpecies = () => {
 
   const getIndividualSpecies = async (speciesId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/individuals/${speciesId}`
-      );
+      const response = await fetchData(`/individuals/${speciesId}`);
 
-      if (response.ok) {
+      if (response) {
         const {
           data: { individuals },
-        } = await response.json();
+        } = response;
 
+        console.log(response, "response");
         setIndividualsOfSpecies(individuals);
-      } else if (!response.ok) {
-        throw new Error("Network response was not okay");
       }
     } catch (error) {
       console.error("Error occured while fetching data", error);
@@ -38,10 +36,11 @@ const IndividualSpecies = () => {
   ) : (
     <div>
       {individualsOfSpecies && (
-        <h2>{`List of Individual ${individualsOfSpecies[0].common_name}s`}</h2>
+        <h2>{`List of Individuals `}</h2>
+        // <h2>{`List of Individual ${individualsOfSpecies[0].common_name}s`}</h2>
       )}
       <IndividualsForm setIndividualsOfSpecies={setIndividualsOfSpecies} />
-      {individualsOfSpecies && (
+      {individualsOfSpecies.length > 0 && (
         <div className="container">
           {individualsOfSpecies.map((individual) => {
             const {

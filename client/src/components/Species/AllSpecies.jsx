@@ -2,27 +2,44 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SpeciesForm from "./SpeciesForm";
 import Loading from "../Loading";
+import fetchData from "../../utils";
 
 const AllSpecies = () => {
   const [species, setSpecies] = useState();
 
   const getAllSpecies = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/v1/species");
+      const response = await fetchData("/species");
 
-      if (response.ok) {
+      if (response) {
         const {
           data: { species },
-        } = await response.json();
+        } = response;
 
         setSpecies(species);
-      } else if (!response.ok) {
-        throw new Error("Network response was not okay");
       }
     } catch (error) {
-      console.error("Error occured while fetching data", error);
+      console.error("Error occured while creating species", error);
     }
   };
+
+  // const getAllSpecies = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:8080/api/v1/species");
+
+  //     if (response.ok) {
+  //       const {
+  //         data: { species },
+  //       } = await response.json();
+
+  //       setSpecies(species);
+  //     } else if (!response.ok) {
+  //       throw new Error("Network response was not okay");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error occured while fetching data", error);
+  //   }
+  // };
 
   const deleteSpecies = async (e, speciesId) => {
     e.preventDefault();

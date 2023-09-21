@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SightingsForm from "./SightingsForm";
 import Loading from "../Loading";
-import { formatSightingDate } from "../../utils";
+import { formatSightingDate, fetchData } from "../../utils";
 
 const IndividualSighting = () => {
   const { id } = useParams();
@@ -11,15 +11,13 @@ const IndividualSighting = () => {
 
   const getIndividualsSighting = async (indiviualId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/sightings/${indiviualId}`
-      );
+      const response = await fetchData(`/sightings/${indiviualId}`);
 
-      if (response.ok) {
+      if (response) {
         const {
           data: { sightings },
-        } = await response.json();
-        console.log(sightings);
+        } = response;
+
         setIndividualsSightings(sightings);
       } else if (!response.ok) {
         throw new Error("Network response was not okay");
@@ -28,6 +26,26 @@ const IndividualSighting = () => {
       console.error("Error occured while fetching data", error);
     }
   };
+
+  // const getIndividualsSighting = async (indiviualId) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:8080/api/v1/sightings/${indiviualId}`
+  //     );
+
+  //     if (response.ok) {
+  //       const {
+  //         data: { sightings },
+  //       } = await response.json();
+  //       console.log(sightings);
+  //       setIndividualsSightings(sightings);
+  //     } else if (!response.ok) {
+  //       throw new Error("Network response was not okay");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error occured while fetching data", error);
+  //   }
+  // };
   useEffect(() => {
     getIndividualsSighting(id);
   }, [id]);
@@ -39,14 +57,15 @@ const IndividualSighting = () => {
   ) : (
     <div>
       <h1>
-        {individualsSightings && individualsSightings[0].id
+        {individualsSightings && individualsSightings[0]?.id
           ? `Sightings of ${individualsSightings[0].nickname}`
-          : `No Sightings of ${individualsSightings[0].nickname}`}
+          : // : `No Sightings of ${individualsSightings[0].nickname}`}
+            `No Sightings of ____`}
       </h1>
 
       <SightingsForm setIndividualsSightings={setIndividualsSightings} />
       <div className="container">
-        {individualsSightings[0].id &&
+        {individualsSightings[0]?.id &&
           individualsSightings.map((sighting, index) => {
             const {
               id,

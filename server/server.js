@@ -62,12 +62,12 @@ app.get("/api/v1/individuals/:id", async (req, res) => {
 
     const result = await db.query(query, [id]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        status: "error",
-        message: "Individual not found",
-      });
-    }
+    // if (result.rows.length === 0) {
+    //   return res.status(404).json({
+    //     status: "error",
+    //     message: "Individual not found",
+    //   });
+    // }
 
     const individuals = result.rows;
 
@@ -186,7 +186,7 @@ app.post("/api/v1/individuals/:id/sighting", async (req, res) => {
       sighting_location,
       sighting_datetime,
       is_healthy,
-      scientific_name,
+      scientist_name,
       scientist_email,
     } = req.body;
 
@@ -197,7 +197,7 @@ app.post("/api/v1/individuals/:id/sighting", async (req, res) => {
         id,
         sighting_location,
         is_healthy,
-        scientific_name,
+        scientist_name,
         scientist_email,
       ]
     );
