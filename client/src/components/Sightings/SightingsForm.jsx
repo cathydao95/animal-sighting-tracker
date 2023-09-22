@@ -5,7 +5,13 @@ import fetchData from "../../utils";
 
 const SightingsForm = ({ setIndividualsSightings }) => {
   const { id } = useParams();
-  const [sightingInfo, setSightingInfo] = useState({});
+  const [sightingInfo, setSightingInfo] = useState({
+    sighting_datetime: "",
+    sighting_location: "",
+    is_healthy: "",
+    scientist_name: "",
+    scientist_email: "",
+  });
 
   const handleInput = (e) => {
     setSightingInfo((prevInfo) => {
@@ -38,36 +44,14 @@ const SightingsForm = ({ setIndividualsSightings }) => {
     } catch (error) {
       console.error("Error occured while creating event", error);
     }
+    setSightingInfo({
+      sighting_datetime: "",
+      sighting_location: "",
+      is_healthy: "",
+      scientist_name: "",
+      scientist_email: "",
+    });
   };
-
-  // const addSighting = async (e, individualId) => {
-  //   e.preventDefault();
-  //   console.log(individualId);
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:8080/api/v1/individuals/${individualId}/sighting`,
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(sightingInfo),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const {
-  //         data: { newSighting },
-  //       } = await response.json();
-  //       setIndividualsSightings((prevSightings) => [
-  //         ...prevSightings,
-  //         newSighting,
-  //       ]);
-  //     } else if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error occured while creating event", error);
-  //   }
-  // };
 
   return (
     <div>
@@ -76,12 +60,14 @@ const SightingsForm = ({ setIndividualsSightings }) => {
           name="sighting_datetime"
           label="Sighting Date"
           type="datetime-local"
+          value={sightingInfo.sighting_datetime}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="sighting_location"
           label="Sighting Location"
           type="text"
+          value={sightingInfo.sighting_location}
           onChange={(e) => handleInput(e)}
         />
         <div className="formRow">
@@ -89,6 +75,7 @@ const SightingsForm = ({ setIndividualsSightings }) => {
           <select
             name="is_healthy"
             id="is_healthy"
+            value={sightingInfo.is_healthy}
             onChange={(e) => handleInput(e)}
           >
             <option value="">Select an option</option>
@@ -100,12 +87,14 @@ const SightingsForm = ({ setIndividualsSightings }) => {
           name="scientist_name"
           label="Scientist Name"
           type="text"
+          value={sightingInfo.scientist_name}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="scientist_email"
           label="Scientist Email"
           type="text"
+          value={sightingInfo.scientist_email}
           onChange={(e) => handleInput(e)}
         />
         <button onClick={(e) => addSighting(e, id)}>Add a Sighting</button>

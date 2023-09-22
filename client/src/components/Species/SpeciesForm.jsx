@@ -3,7 +3,12 @@ import FormRow from "../FormRow";
 import fetchData from "../../utils";
 
 const SpeciesForm = ({ setSpecies }) => {
-  const [speciesInfo, setSpeciesInfo] = useState({});
+  const [speciesInfo, setSpeciesInfo] = useState({
+    common_name: "",
+    scientific_name: "",
+    estimated_population: "",
+    conservation_status_code: "",
+  });
 
   const handleInput = (e) => {
     setSpeciesInfo((prevInfo) => {
@@ -26,6 +31,12 @@ const SpeciesForm = ({ setSpecies }) => {
     } catch (error) {
       console.error("Error occured while creating event", error);
     }
+    setSpeciesInfo({
+      common_name: "",
+      scientific_name: "",
+      estimated_population: "",
+      conservation_status_code: "",
+    });
   };
 
   console.log(speciesInfo);
@@ -36,18 +47,21 @@ const SpeciesForm = ({ setSpecies }) => {
           name="common_name"
           label="Common Name"
           type="text"
+          value={speciesInfo.common_name}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="scientific_name"
           label="Scientific Name"
           type="text"
+          value={speciesInfo.scientific_name}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="estimated_population"
           label="Estimated Population"
           type="number"
+          value={speciesInfo.estimated_population}
           onChange={(e) => handleInput(e)}
         />
         <div className="formRow">
@@ -56,6 +70,7 @@ const SpeciesForm = ({ setSpecies }) => {
             name="conservation_status_code"
             id="conservation_status"
             type="text"
+            value={speciesInfo.conservation_status_code}
             onChange={(e) => handleInput(e)}
           >
             <option value="NE">Not Evaluated</option> 

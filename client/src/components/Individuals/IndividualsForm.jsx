@@ -6,7 +6,11 @@ import fetchData from "../../utils";
 const IndividualsForm = ({ setIndividualsOfSpecies }) => {
   const { id } = useParams();
 
-  const [individualInfo, setIndividualInfo] = useState({});
+  const [individualInfo, setIndividualInfo] = useState({
+    nickname: "",
+    scientist_email: "",
+    scientist_name: "",
+  });
 
   const handleInput = (e) => {
     setIndividualInfo((prevInfo) => {
@@ -36,7 +40,14 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
     } catch (error) {
       console.error("Error occured while creating event", error);
     }
+    setIndividualInfo({
+      nickname: "",
+      scientist_email: "",
+      scientist_name: "",
+    });
   };
+
+  console.log(individualInfo);
 
   return (
     <div>
@@ -45,18 +56,21 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
           name="nickname"
           label="Nickname"
           type="text"
+          value={individualInfo.nickname}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="scientist_name"
           label="Scientist Name"
           type="text"
+          value={individualInfo.scientist_name}
           onChange={(e) => handleInput(e)}
         />
         <FormRow
           name="scientist_email"
           label="Scientist Email"
           type="text"
+          value={individualInfo.scientist_email}
           onChange={(e) => handleInput(e)}
         />
         <button onClick={(e) => addIndividual(e, id)}>
