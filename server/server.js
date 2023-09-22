@@ -39,35 +39,12 @@ app.get("/api/v1/individuals/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    // THIS QUERY ONLY RETURNS INDIVIDUAL DATA: NICKNAME AND SIGHTED BY
-    // const query = `
-    // SELECT * FROM individuals WHERE species_id = $1`;
-
-    // THIS QUERY RETURNS ALL INDIVIDUALS DATA, SPECIES COMMON NAME/SCIENTIFIC NAME, AND SIGHTINGS DATA HOWEVER THIS GETS DUPLICATES DATA
-    // const query = `
-    //   SELECT individuals.*, species.common_name, species.scientific_name, sightings.is_healthy, sightings.sighting_location, sightings.sighting_datetime
-    //   FROM individuals
-    //   INNER JOIN species ON individuals.species_id = species.id
-    //   INNER JOIN sightings ON individuals.id = sightings.individual_id
-    //   WHERE individuals.species_id = $1
-    // `;
-
-    // THIS QUERY GETS INDIVIDUALS AS WELL AS SPECIES COMMON NAME/SCIENTIFIC NAME - DOES NOT HAVE DUPLICATES BUT DOESNT HAVE SIGHTINGS INFO
-    const query = `
-      SELECT individuals.*, species.common_name, species.scientific_name
-      FROM individuals
-      INNER JOIN species ON individuals.species_id = species.id
-      WHERE individuals.species_id = $1
-    `;
+    const query = `SELECT individuals.*, species.common_name, species.scientific_name
+      FROM species
+      LEFT JOIN individuals ON species.id = individuals.species_id
+      WHERE species.id = $1`;
 
     const result = await db.query(query, [id]);
-
-    // if (result.rows.length === 0) {
-    //   return res.status(404).json({
-    //     status: "error",
-    //     message: "Individual not found",
-    //   });
-    // }
 
     const individuals = result.rows;
 
@@ -84,18 +61,12 @@ app.get("/api/v1/individuals/:id", async (req, res) => {
 app.get("/api/v1/sightings/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    // const query = `
-    //  SELECT individuals.nickname, individuals.scientist_name, sightings.*
-    //   FROM individuals
-    //   LEFT JOIN sightings ON individuals.id = sightings.individual_id
-    //   WHERE individuals.id = $1
-    // `;
 
     const query = `
-    SELECT individuals.nickname, individuals.scientist_name, sightings.*
-    FROM sightings
-    RIGHT JOIN individuals ON sightings.individual_id = individuals.id
-    WHERE sightings.individual_id = $1
+      SELECT individuals.nickname, individuals.scientist_name, sightings.*
+      FROM individuals
+      LEFT JOIN sightings ON individuals.id = sightings.individual_id
+      WHERE individuals.id  = $1
     `;
 
     const result = await db.query(query, [id]);
@@ -222,60 +193,6 @@ app.post("/api/v1/individuals/:id/sighting", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(400).json({ error });
-  }
-});
-
-// EDIT SPECIES
-
-app.put("/api/v1/species/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      common_name,
-      scientific_name,
-      estimated_population,
-      conservation_status_code,
-    } = req.body;
-
-    const updatedSpecies = await db.query(
-      "UPDATE species SET common_name=$1, scientific_name=$2, estimated_population=$3, conservation_status_code=$4 WHERE id=$5 RETURNING *",
-      [
-        common_name,
-        scientific_name,
-        estimated_population,
-        conservation_status_code,
-        id,
-      ]
-    );
-    if (updatedSpecies.rowCount === 0) {
-      return res.status(404).json({ status: "Species not found" });
-    }
-
-    res.json({
-      status: "Species Updated",
-      updatedSpecies: updatedSpecies.rows[0],
-    });
-  } catch (error) {
-    console.log(error);
-    res.json({ status: "failure" });
-  }
-});
-
-// DELETE SPECIES
-app.delete("/api/v1/species/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const deletedSpecies = await db.query("DELETE FROM species WHERE id=$1", [
-      id,
-    ]);
-
-    res.json({
-      status: "Species Deleted",
-    });
-  } catch (error) {
-    console.log(error);
-    res.json({ status: "failure" });
   }
 });
 
