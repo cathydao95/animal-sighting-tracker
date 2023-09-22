@@ -23,24 +23,6 @@ const AllSpecies = () => {
     }
   };
 
-  // const getAllSpecies = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:8080/api/v1/species");
-
-  //     if (response.ok) {
-  //       const {
-  //         data: { species },
-  //       } = await response.json();
-
-  //       setSpecies(species);
-  //     } else if (!response.ok) {
-  //       throw new Error("Network response was not okay");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error occured while fetching data", error);
-  //   }
-  // };
-
   const deleteSpecies = async (e, speciesId) => {
     e.preventDefault();
     console.log(species);
@@ -92,10 +74,6 @@ const AllSpecies = () => {
                 <p>Scientific Name: {scientific_name}</p>
                 <p>Estimated Population: {estimated_population}</p>
                 <p>Conservation Status Code: {conservation_status_code}</p>
-                <div className="btnContainer">
-                  <button>Edit</button>
-                  <button onClick={(e) => deleteSpecies(e, id)}>Delete</button>
-                </div>
               </div>
             );
           })}
