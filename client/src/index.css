@@ -79,13 +79,6 @@ button:hover {
   text-align: center;
 }
 
-.btnContainer {
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
 @media (min-width: 600px) {
   body {
     margin: 2rem 5rem;
