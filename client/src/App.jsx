@@ -14,12 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<AllSpecies />}></Route>
         <Route path="/:id" element={<IndividualSpecies />}></Route>
-        {/* <Route path="/individuals" element={<AllIndividuals />}></Route> */}
         <Route
           path="/individuals/:id/sighting"
           element={<IndividualSighting />}
         ></Route>
-        {/* <Route path="/sightings" element={<AllSightings />}></Route> */}
       </Routes>
     </BrowserRouter>
   );
