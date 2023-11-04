@@ -21,13 +21,17 @@ app.get("/", (req, res) => {
 app.get("/api/v1/species", async (req, res) => {
   try {
     // destructure rows from result and assign to variable species
-    const { rows: species } = await db.query("SELECT * FROM species");
+    // const { rows: species } = await db.query("SELECT * FROM species");
+    const result = await db.query("SELECT * FROM species");
 
-    res.status(200).json({
-      status: "success",
-      results: species.length,
-      data: { species },
-    });
+    console.log(result);
+
+    res.status(200).send(result.rows);
+    // res.status(200).json({
+    //   status: "success",
+    //   results: species.length,
+    //   data: { species },
+    // });
   } catch (error) {
     return res.status(400).json({ error });
   }

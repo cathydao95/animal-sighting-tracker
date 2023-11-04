@@ -174,6 +174,10 @@ COPY public.individuals (id, nickname, scientist_name, scientist_email, species_
 10	Iceberg	Dr. Robert Clark	robert.clark@example.com	5	2023-09-20 20:28:26.436685
 11	Bamboo	Dr. Jessica Taylor	jessica.taylor@example.com	6	2023-09-20 20:28:26.436685
 12	Panda Jr.	Dr. Matthew Green	matthew.green@example.com	6	2023-09-20 20:28:26.436685
+16	Leo	Dr Dao	drdao@gmail.com	1	2023-09-22 15:13:48.742064
+17	Cow	Cathy	\N	2	2023-09-25 15:52:24.599857
+18	Cow	Cathy	\N	2	2023-09-25 15:52:59.19844
+19	Cow	Cathy	\N	2	2023-09-25 15:53:19.374226
 \.
 
 
@@ -215,21 +219,21 @@ COPY public.species (id, common_name, scientific_name, estimated_population, con
 -- Name: individuals_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tpl1122_1
 --
 
-SELECT pg_catalog.setval('public.individuals_id_seq', 12, true);
+SELECT pg_catalog.setval('public.individuals_id_seq', 19, true);
 
 
 --
 -- Name: sightings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tpl1122_1
 --
 
-SELECT pg_catalog.setval('public.sightings_id_seq', 12, true);
+SELECT pg_catalog.setval('public.sightings_id_seq', 16, true);
 
 
 --
 -- Name: species_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tpl1122_1
 --
 
-SELECT pg_catalog.setval('public.species_id_seq', 6, true);
+SELECT pg_catalog.setval('public.species_id_seq', 9, true);
 
 
 --
