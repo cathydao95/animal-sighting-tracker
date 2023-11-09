@@ -11,6 +11,7 @@ const FormRow = ({ name, value, onChange, label, type }) => {
         onChange={onChange}
         autoComplete="off"
         value={value}
+        required
       />
     </div>
   );

@@ -18,15 +18,12 @@ const IndividualSpecies = () => {
           data: { individuals },
         } = response;
 
-        console.log(response, "response");
         setIndividualsOfSpecies(individuals);
       }
     } catch (error) {
       console.error("Error occured while fetching data", error);
     }
   };
-
-  console.log(individualsOfSpecies);
 
   useEffect(() => {
     getIndividualSpecies(id);

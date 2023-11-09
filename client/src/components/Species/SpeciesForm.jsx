@@ -39,7 +39,6 @@ const SpeciesForm = ({ setSpecies }) => {
     });
   };
 
-  console.log(speciesInfo);
   return (
     <div>
       <form className="formContainer">

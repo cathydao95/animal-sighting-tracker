@@ -19,11 +19,9 @@ const SightingsForm = ({ setIndividualsSightings }) => {
     });
   };
 
-  console.log(sightingInfo);
-
   const addSighting = async (e, individualId) => {
     e.preventDefault();
-    console.log(individualId);
+
     try {
       const response = await fetchData(
         `/individuals/${individualId}/sighting`,

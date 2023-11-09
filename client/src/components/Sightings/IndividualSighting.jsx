@@ -29,8 +29,6 @@ const IndividualSighting = () => {
     getIndividualsSighting(id);
   }, [id]);
 
-  console.log("here", individualsSightings, id);
-
   return !individualsSightings ? (
     <Loading />
   ) : (

@@ -47,8 +47,6 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
     });
   };
 
-  console.log(individualInfo);
-
   return (
     <div>
       <form className="formContainer">

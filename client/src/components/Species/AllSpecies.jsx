@@ -12,11 +12,7 @@ const AllSpecies = () => {
       const response = await fetchData("/species");
 
       if (response) {
-        const {
-          data: { species },
-        } = response;
-
-        setSpecies(species);
+        setSpecies(response);
       }
     } catch (error) {
       console.error("Error occured while creating species", error);
@@ -25,7 +21,6 @@ const AllSpecies = () => {
 
   const deleteSpecies = async (e, speciesId) => {
     e.preventDefault();
-    console.log(species);
 
     try {
       const response = await fetch(
