@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import IndividualsForm from "./IndividualsForm";
 import Loading from "../Loading";
 import fetchData from "../../utils";
+import IndividualsCard from "../IndividualsCard/IndividualsCard";
 
 const IndividualSpecies = () => {
   const { id } = useParams();
@@ -39,28 +40,9 @@ const IndividualSpecies = () => {
       {individualsOfSpecies.length > 0 && (
         <div className="container">
           {individualsOfSpecies.map((individual) => {
-            const {
-              nickname,
-              scientist_name,
-              scientist_email,
-              id,
-              scientific_name,
-              common_name,
-            } = individual;
+            const { nickname } = individual;
 
-            return (
-              nickname && (
-                <div className="individualContainer" key={id}>
-                  <Link to={`/individuals/${id}/sighting`}>
-                    <h3 className="mainTitle">{nickname}</h3>
-                    <p>Common Name: {common_name}</p>
-                    <p>Scientific Name: {scientific_name}</p>
-                    <p>Discovered By: {scientist_name}</p>
-                    <p>Email: {scientist_email}</p>
-                  </Link>
-                </div>
-              )
-            );
+            return nickname && <IndividualsCard individual={individual} />;
           })}
         </div>
       )}
