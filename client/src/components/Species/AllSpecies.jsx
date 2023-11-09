@@ -6,16 +6,22 @@ import fetchData from "../../utils";
 
 const AllSpecies = () => {
   const [species, setSpecies] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const getAllSpecies = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await fetchData("/species");
-
       if (response) {
         setSpecies(response);
       }
     } catch (error) {
+      setError("Error occurred while fetching species");
       console.error("Error occured while creating species", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,6 +43,7 @@ const AllSpecies = () => {
         throw new Error("Network response was not ok");
       }
     } catch (error) {
+      setError("Error occurred while deleting species");
       console.error("Error occured while deleting event", error);
     }
   };
@@ -45,9 +52,9 @@ const AllSpecies = () => {
     getAllSpecies();
   }, []);
 
-  return !species ? (
-    <Loading />
-  ) : (
+  if (loading) return <Loading />;
+  if (error) return <div>Error: {error}</div>;
+  return (
     <div>
       <h1>All Species</h1>
       <SpeciesForm setSpecies={setSpecies} />
