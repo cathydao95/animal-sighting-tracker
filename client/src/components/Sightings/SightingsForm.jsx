@@ -5,6 +5,7 @@ import fetchData from "../../utils";
 
 const SightingsForm = ({ setIndividualsSightings }) => {
   const { id } = useParams();
+  const [error, setError] = useState("");
   const [sightingInfo, setSightingInfo] = useState({
     sighting_datetime: "",
     sighting_location: "",
@@ -19,9 +20,30 @@ const SightingsForm = ({ setIndividualsSightings }) => {
     });
   };
 
+  const isFormValid = () => {
+    const {
+      sighting_datetime,
+      sighting_location,
+      is_healthy,
+      scientist_name,
+      scientist_email,
+    } = sightingInfo;
+    return (
+      sighting_datetime &&
+      sighting_location &&
+      is_healthy &&
+      scientist_name &&
+      scientist_email
+    );
+  };
+
   const addSighting = async (e, individualId) => {
     e.preventDefault();
-
+    setError("");
+    if (!isFormValid()) {
+      setError("Please fill in all fields.");
+      return;
+    }
     try {
       const response = await fetchData(
         `/individuals/${individualId}/sighting`,
@@ -53,6 +75,7 @@ const SightingsForm = ({ setIndividualsSightings }) => {
 
   return (
     <div>
+      {error && <div className="error">{error}</div>}
       <form className="formContainer">
         <FormRow
           name="sighting_datetime"

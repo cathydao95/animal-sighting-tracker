@@ -11,6 +11,7 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
     scientist_email: "",
     scientist_name: "",
   });
+  const [error, setError] = useState("");
 
   const handleInput = (e) => {
     setIndividualInfo((prevInfo) => {
@@ -18,8 +19,18 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
     });
   };
 
+  const isFormValid = () => {
+    const { nickname, scientist_name, scientist_email } = individualInfo;
+    return nickname && scientist_name && scientist_email;
+  };
+
   const addIndividual = async (e, speciesId) => {
     e.preventDefault();
+    setError("");
+    if (!isFormValid()) {
+      setError("Please fill in all fields.");
+      return;
+    }
     try {
       const response = await fetchData(
         `/species/${speciesId}/individuals`,
@@ -49,6 +60,7 @@ const IndividualsForm = ({ setIndividualsOfSpecies }) => {
 
   return (
     <div>
+      {error && <div className="error">{error}</div>}
       <form className="formContainer">
         <FormRow
           name="nickname"
