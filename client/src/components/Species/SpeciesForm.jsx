@@ -10,14 +10,36 @@ const SpeciesForm = ({ setSpecies }) => {
     conservation_status_code: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleInput = (e) => {
     setSpeciesInfo((prevInfo) => {
       return { ...prevInfo, [e.target.name]: e.target.value };
     });
   };
 
+  const isFormValid = () => {
+    const {
+      common_name,
+      scientific_name,
+      estimated_population,
+      conservation_status_code,
+    } = speciesInfo;
+    return (
+      common_name &&
+      scientific_name &&
+      estimated_population &&
+      conservation_status_code
+    );
+  };
+
   const addSpecies = async (e) => {
     e.preventDefault();
+    setError("");
+    if (!isFormValid()) {
+      setError("Please fill in all fields.");
+      return;
+    }
     try {
       const response = await fetchData("/species", "POST", {}, speciesInfo);
 
@@ -41,6 +63,7 @@ const SpeciesForm = ({ setSpecies }) => {
 
   return (
     <div>
+      {error && <div className="error">{error}</div>}
       <form className="formContainer">
         <FormRow
           name="common_name"

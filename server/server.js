@@ -27,11 +27,6 @@ app.get("/api/v1/species", async (req, res) => {
     console.log(result);
 
     res.status(200).send(result.rows);
-    // res.status(200).json({
-    //   status: "success",
-    //   results: species.length,
-    //   data: { species },
-    // });
   } catch (error) {
     return res.status(400).json({ error });
   }
@@ -95,7 +90,13 @@ app.post("/api/v1/species", async (req, res) => {
       estimated_population,
       conservation_status_code,
     } = req.body;
-    // how to destructure this? so can obtain rows here?
+
+    if (!common_name || !scientific_name) {
+      return res.status(400).json({
+        error: "Please enter species common name and scientific name.",
+      });
+    }
+
     const newSpecies = await db.query(
       "INSERT INTO species (common_name, scientific_name, estimated_population, conservation_status_code) VALUES($1, $2, $3, $4) RETURNING *",
       [

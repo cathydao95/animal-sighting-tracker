@@ -79,6 +79,10 @@ button:hover {
   text-align: center;
 }
 
+.error {
+  color: red;
+}
+
 @media (min-width: 600px) {
   body {
     margin: 2rem 5rem;
